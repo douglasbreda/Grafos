@@ -128,10 +128,24 @@ namespace Grafos
                     GrafoDefinicao += "\n";
                     for (int j = 0; j < dj.MatrizAdjacencia.GetLength(1); j++)
                     {
-                        GrafoDefinicao += dj.MatrizAdjacencia[i,j].ToString() + "   ";
+                        GrafoDefinicao += dj.MatrizAdjacencia[i, j].ToString() + "   ";
                     }
                 }
+
+                GrafoDefinicao += "\n\n";
+
+                for (int i = 0; i < dj.TabelaFinal.GetLength(0); i++)
+                {
+                    GrafoDefinicao += dj.TabelaFinal[0, i];
+                }
+                GrafoDefinicao += "\n";
+                for (int j = 0; j < dj.TabelaFinal.GetLength(1); j++)
+                {
+                    GrafoDefinicao += dj.TabelaFinal[1, j];
+                }
+
             }
+
         }
 
         #endregion Fim [Métodos]
