@@ -29,12 +29,12 @@ namespace Grafos
         /// <summary>
         /// Posição X do Vértice
         /// </summary>
-        public double PosX { get; set; }
+        public float PosX { get; set; }
 
         /// <summary>
         /// Posição Y do Vértice
         /// </summary>
-        public double PosY { get; set; }
+        public float PosY { get; set; }
 
         /// <summary>
         /// Indica se o vértice foi visitado ou não
@@ -50,7 +50,7 @@ namespace Grafos
         /// </summary>
         /// <param name="pId"></param>
         /// <param name="pRotulo"></param>
-        public Vertice(double pPosX, double pPosY, int pId, string pRotulo)
+        public Vertice(float pPosX, float pPosY, int pId, string pRotulo)
         {
             this.PosX = pPosX;
             this.PosY = pPosY;

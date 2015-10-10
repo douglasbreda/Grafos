@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -13,7 +15,7 @@ namespace Grafos
     {
         #region [Atributos]
 
-        private Grafo grafo;
+        public Grafo grafo { get; set; }
 
         public string Retorno;
 
@@ -22,6 +24,8 @@ namespace Grafos
         public bool Conexo { get; set; }
 
         public string CaminhoXml { get; set; }
+
+
 
         #endregion Fim de [Atributos]
 
@@ -55,8 +59,29 @@ namespace Grafos
             {
                 file = new FileStream(janelaArquivos.FileName, FileMode.Open);
                 CaminhoXml = janelaArquivos.FileName;
+
+                //StreamReader lerArquivo = new StreamReader(CaminhoXml);
+                //string novoArquivo = lerArquivo.ReadLine();
+                //novoArquivo = novoArquivo.Replace("<!-- relId indica o índice do vértice na matriz de adjacências-->", "");
+                //StreamWriter gravar = new StreamWriter(CaminhoXml);
+                //gravar.Write(novoArquivo);
                 try
                 {
+                    //Remove o comentário
+                    file.Close();
+                    String text = File.ReadAllText(file.Name);
+                    int inicio = text.IndexOf("<!--");
+                    if (inicio > 0)
+                    {
+                        string comentario = text.Substring(inicio, 65);
+                        text = text.Replace(comentario, null);
+                        text = Regex.Replace(text, @"^\s+$[\r\n]*", "", RegexOptions.Multiline);
+                        File.WriteAllText(file.Name, text);
+                    }
+
+                    file = new FileStream(file.Name, FileMode.Open);
+
+
                     xml.Load(file);
                     XmlNodeList nodes = xml.GetElementsByTagName("Vertice");
 
@@ -68,8 +93,8 @@ namespace Grafos
                             XmlElement element = (XmlElement)node;
                             int relId = Convert.ToInt32(element.GetAttribute("relId"));
                             String rotulo = element.GetAttribute("rotulo");
-                            int posX = Convert.ToInt32(element.GetAttribute("posX"));
-                            int posY = Convert.ToInt32(element.GetAttribute("posY"));
+                            float posX = Convert.ToSingle(element.GetAttribute("posX"));
+                            float posY = Convert.ToSingle(element.GetAttribute("posY"));
                             //Adicione os vértices ao seu grafo aqui, exemplo:
                             grafo.AdicionarVertice(relId, rotulo, posX, posY);
                             Retorno += "ID: " + relId + " Rótulo: " + rotulo + "\n";
@@ -102,7 +127,7 @@ namespace Grafos
             return null;
         }
 
-        public void ExecutarGrafo(bool pDfs, bool pBfs, bool pDjikstra)
+        public void ExecutarGrafo(bool pDfs, bool pBfs, bool pDjikstra, string pVerticeInicial, string pVerticeBusca, bool pEstrela, bool pPlanar)
         {
             if (pDfs)
             {
@@ -120,32 +145,39 @@ namespace Grafos
                 Conexo = bfs.Conexo;
                 bfs.Limpar();
             }
-            else
+            else if (pDjikstra)
             {
-                Djikstra dj = new Djikstra(grafo.Vertices);
-                for (int i = 0; i < dj.MatrizAdjacencia.GetLength(0); i++)
-                {
-                    GrafoDefinicao += "\n";
-                    for (int j = 0; j < dj.MatrizAdjacencia.GetLength(1); j++)
-                    {
-                        GrafoDefinicao += dj.MatrizAdjacencia[i, j].ToString() + "   ";
-                    }
-                }
+                Djikstra dj = new Djikstra(grafo.Vertices, pVerticeInicial, pVerticeBusca);
+                //for (int i = 0; i < dj.MatrizAdjacencia.GetLength(0); i++)
+                //{
+                //    GrafoDefinicao += "\n";
+                //    for (int j = 0; j < dj.MatrizAdjacencia.GetLength(1); j++)
+                //    {
+                //        GrafoDefinicao += dj.MatrizAdjacencia[i, j].ToString() + "   ";
+                //    }
+                //}
 
-                GrafoDefinicao += "\n\n";
+                //GrafoDefinicao += "\n\n";
 
-                for (int i = 0; i < dj.TabelaFinal.GetLength(0); i++)
-                {
-                    GrafoDefinicao += dj.TabelaFinal[0, i];
-                }
-                GrafoDefinicao += "\n";
-                for (int j = 0; j < dj.TabelaFinal.GetLength(1); j++)
-                {
-                    GrafoDefinicao += dj.TabelaFinal[1, j];
-                }
+                //for (int i = 0; i < dj.TabelaFinal.GetLength(1); i++)
+                //{
+                //    GrafoDefinicao += dj.TabelaFinal[0, i] + grafo.Vertices.AsEnumerable().Where(item => item.Id == i).FirstOrDefault().Rotulo + " ";
+                //}
+                //GrafoDefinicao += "\n";
+                //for (int j = 0; j < dj.TabelaFinal.GetLength(1); j++)
+                //{
+                //    GrafoDefinicao += dj.TabelaFinal[1, j] + "   ";
+                //}
 
+                //GrafoDefinicao += "\n";
+
+                GrafoDefinicao += dj.CaminhoGrafo;
             }
-
+            else if (pPlanar)
+            {
+                Planaridade oPlanar = new Planaridade(grafo.Vertices, grafo.Arcos);
+                oPlanar.VerificarPlanaridade();
+            }
         }
 
         #endregion Fim [Métodos]

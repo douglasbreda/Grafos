@@ -60,9 +60,10 @@ namespace Grafos
             Destino = Vertices.Find(item => item.Id == pIdDestino);
 
             novoArco = new Arco(Origem, Destino, pPeso);
+            Arcos.Add(novoArco);
         }
 
-        public void AdicionarVertice(int pId, string pRotulo, double pPosX, double pPosY)
+        public void AdicionarVertice(int pId, string pRotulo, float pPosX, float pPosY)
         {
             novoVertice = new Vertice(pPosX, pPosY, pId, pRotulo);
             Vertices.Add(novoVertice);
