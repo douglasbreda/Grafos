@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,38 @@ namespace Grafos
         /// Indica se o vértice foi visitado ou não
         /// </summary>
         public bool Visitado { get; set; }
+
+        public int CorVertice { get; set; }
+
+        /// <summary>
+        /// Retorna qual é o grau do vertice
+        /// </summary>
+        public int Grau
+        {
+            get { return listaArcos.Where(item => item.Origem.Id == Id).Count(); }
+        }
+
+        /// <summary>
+        /// Retorna a lista com os vértice que são adjacentes ao vértice atual
+        /// </summary>
+        public List<Vertice> Adjacentes
+        {
+            get
+            {
+                List<Vertice> listaRetorno = new List<Vertice>();
+                listaArcos.Where(item => item.Origem.Id == Id ).ToList().ForEach(item =>
+                {
+                    listaRetorno.Add(item.Destino);
+
+                });
+
+                listaArcos.Where(item => item.Destino.Id == Id).ToList().ForEach(item =>
+                {
+                    listaRetorno.Add(item.Origem);
+                });
+                return listaRetorno;
+            }
+        }
 
         #endregion Fim [Propriedades]
 

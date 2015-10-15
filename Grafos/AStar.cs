@@ -21,6 +21,8 @@ namespace Grafos
         private Tuple<int, int> posicaoAtual;
         private int iValorFAtual = 0;
         List<Tuple<int, int, int>> listaPosicoesAtuais = new List<Tuple<int, int, int>>();
+        List<Tuple<int, int>> listaVisitados = new List<Tuple<int, int>>();
+        Stack<Tuple<int, int>> pilhaPosicoes = new Stack<Tuple<int, int>>();
 
         #endregion Fim [Atributos]
 
@@ -101,19 +103,32 @@ namespace Grafos
 
         private void CalcularProximaPosicao()
         {
-            H = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2);
-            listaPosicoesAtuais.Clear();
-            BuscarValorHAbaixo();
-            BuscarValorHAcima();
-            BuscarValorHDireita();
-            BuscarValorHEsquerda();
-            BuscarValorHDiagonalBaixoEsquerda();
-            BuscarValorHDiagonalBaixoDireita();
-            BuscarValorHDiagonalCimaEsquerda();
-            BuscarValorHDiagonalCimaDireita();
-            ProximoIndice();
+            if (!pilhaPosicoes.Contains(posicaoAtual) && !listaVisitados.Contains(posicaoAtual))
+            {
+                pilhaPosicoes.Push(posicaoAtual);
+                H = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2);
+                listaPosicoesAtuais.Clear();
+                BuscarValorHAbaixo();
+                BuscarValorHAcima();
+                BuscarValorHDireita();
+                BuscarValorHEsquerda();
+                BuscarValorHDiagonalBaixoEsquerda();
+                BuscarValorHDiagonalBaixoDireita();
+                BuscarValorHDiagonalCimaEsquerda();
+                BuscarValorHDiagonalCimaDireita();
 
-            if(posicaoAtual.Item1 == oConfigStar.PosicaoFinal.Item1 && posicaoAtual.Item2 == oConfigStar.PosicaoFinal.Item2)
+                if (posicaoAtual.Item1 != oConfigStar.PosicaoInicial.Item1 || posicaoAtual.Item2 != oConfigStar.PosicaoInicial.Item2)
+                    listaVisitados.Add(new Tuple<int, int>(posicaoAtual.Item1, posicaoAtual.Item2));
+
+                ProximoIndice();
+            }
+            else
+            {
+                if (pilhaPosicoes.Count > 0)
+                    posicaoAtual = pilhaPosicoes.Pop();
+            }
+
+            if (posicaoAtual.Item1 == oConfigStar.PosicaoFinal.Item1 && posicaoAtual.Item2 == oConfigStar.PosicaoFinal.Item2)
             {
 
             }
@@ -125,7 +140,9 @@ namespace Grafos
 
         private void BuscarValorHAcima()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1 - 1][posicaoAtual.Item2].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1 - 1][posicaoAtual.Item2].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1 - 1, posicaoAtual.Item2))
+                && VerificarPosInicial(posicaoAtual.Item1 - 1, posicaoAtual.Item2))
             {
                 int iValor = CalcularH(posicaoAtual.Item1 - 1, posicaoAtual.Item2);
                 iValor = iValor + 10;
@@ -135,7 +152,9 @@ namespace Grafos
 
         private void BuscarValorHDireita()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2 + 1].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2 + 1].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1, posicaoAtual.Item2 + 1))
+                && VerificarPosInicial(posicaoAtual.Item1, posicaoAtual.Item2 + 1))
             {
                 int iValor = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2 + 1);
                 iValor = iValor + 10;
@@ -145,7 +164,9 @@ namespace Grafos
 
         private void BuscarValorHEsquerda()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2 - 1].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2 - 1].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1, posicaoAtual.Item2 - 1))
+                && VerificarPosInicial(posicaoAtual.Item1, posicaoAtual.Item2 - 1))
             {
                 int iValor = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2 - 1);
                 iValor = iValor + 10;
@@ -155,7 +176,9 @@ namespace Grafos
 
         private void BuscarValorHAbaixo()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1 + 1][posicaoAtual.Item2].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1 + 1][posicaoAtual.Item2].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1 + 1, posicaoAtual.Item2))
+                && VerificarPosInicial(posicaoAtual.Item1 + 1, posicaoAtual.Item2))
             {
                 int iValor = CalcularH(posicaoAtual.Item1 + 1, posicaoAtual.Item2);
                 iValor = iValor + 10;
@@ -165,7 +188,9 @@ namespace Grafos
 
         private void BuscarValorHDiagonalBaixoEsquerda()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1 + 1][posicaoAtual.Item2 + 1].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1 + 1][posicaoAtual.Item2 + 1].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1 + 1, posicaoAtual.Item2 + 1))
+                && VerificarPosInicial(posicaoAtual.Item1 + 1, posicaoAtual.Item2 + 1))
             {
                 int iValor = CalcularH(posicaoAtual.Item1 + 1, posicaoAtual.Item2 + 1);
                 iValor = iValor + 14;
@@ -175,7 +200,9 @@ namespace Grafos
 
         private void BuscarValorHDiagonalBaixoDireita()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1 + 1][posicaoAtual.Item2 - 1].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1 + 1][posicaoAtual.Item2 - 1].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1 + 1, posicaoAtual.Item2 - 1))
+                && VerificarPosInicial(posicaoAtual.Item1 + 1, posicaoAtual.Item2 - 1))
             {
                 int iValor = CalcularH(posicaoAtual.Item1 + 1, posicaoAtual.Item2 - 1);
                 iValor = iValor + 14;
@@ -185,7 +212,9 @@ namespace Grafos
 
         private void BuscarValorHDiagonalCimaEsquerda()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1 - 1][posicaoAtual.Item2 - 1].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1 - 1][posicaoAtual.Item2 - 1].ToString().Equals("Muro") 
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1 - 1, posicaoAtual.Item2 - 1))
+                && VerificarPosInicial(posicaoAtual.Item1 - 1, posicaoAtual.Item2 - 1))
             {
                 int iValor = CalcularH(posicaoAtual.Item1 - 1, posicaoAtual.Item2 - 1);
                 iValor = iValor + 14;
@@ -195,7 +224,9 @@ namespace Grafos
 
         private void BuscarValorHDiagonalCimaDireita()
         {
-            if (!dtbEstrela.Rows[posicaoAtual.Item1 - 1][posicaoAtual.Item2 + 1].ToString().Equals("Muro"))
+            if (!dtbEstrela.Rows[posicaoAtual.Item1 - 1][posicaoAtual.Item2 + 1].ToString().Equals("Muro")
+                && !listaVisitados.Contains(new Tuple<int, int>(posicaoAtual.Item1 - 1, posicaoAtual.Item2 + 1)) &&
+                VerificarPosInicial(posicaoAtual.Item1 - 1, posicaoAtual.Item2 + 1))
             {
                 int iValor = CalcularH(posicaoAtual.Item1 - 1, posicaoAtual.Item2 + 1);
                 iValor = iValor + 14;
@@ -205,17 +236,30 @@ namespace Grafos
 
         private void ProximoIndice()
         {
-            int iMenorValor = listaPosicoesAtuais.AsEnumerable().Min(item => item.Item3);
-
-            listaPosicoesAtuais.AsEnumerable().ToList().ForEach(tupla =>
+            int iMenorValor = 0;
+            if (listaPosicoesAtuais.Count > 0)
             {
-                if (tupla.Item3 == iMenorValor)
+                iMenorValor = listaPosicoesAtuais.AsEnumerable().Min(item => item.Item3);
+
+                listaPosicoesAtuais.AsEnumerable().ToList().ForEach(tupla =>
                 {
-                    posicaoAtual = new Tuple<int, int>(tupla.Item1, tupla.Item2);
-                    if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2].ToString().Equals("Fim"))
-                        dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2] = "X";
-                }
-            });
+                    Tuple<int, int> tuplaVisitada = new Tuple<int, int>(tupla.Item1, tupla.Item2);
+                    if (!listaVisitados.Contains(tuplaVisitada) && (tupla.Item1 != oConfigStar.PosicaoInicial.Item1 || tupla.Item2 != oConfigStar.PosicaoInicial.Item2))
+                    {
+                        if (tupla.Item3 == iMenorValor)
+                        {
+                            posicaoAtual = new Tuple<int, int>(tupla.Item1, tupla.Item2);
+                            if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2].ToString().Equals("Fim"))
+                                dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2] = "X";
+                        }
+                    }
+                });
+            }
+        }
+
+        private bool VerificarPosInicial(int pItem1, int pItem2)
+        {
+            return (pItem1 != oConfigStar.PosicaoInicial.Item1 || pItem2 != oConfigStar.PosicaoInicial.Item2);
         }
 
 

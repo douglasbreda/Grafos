@@ -25,6 +25,7 @@ namespace Grafos
 
         public string CaminhoXml { get; set; }
 
+        public List<int> CoresColoracao { get; set; }
 
 
         #endregion Fim de [Atributos]
@@ -53,18 +54,14 @@ namespace Grafos
             XmlDocument xml = new XmlDocument();
             OpenFileDialog janelaArquivos = new OpenFileDialog();
             janelaArquivos.Filter = "XML Files| *.xml";
-            FileStream file;
+            FileStream file = null;
+            bool bDirigido = false;
 
             if (janelaArquivos.ShowDialog() == DialogResult.OK)
             {
                 file = new FileStream(janelaArquivos.FileName, FileMode.Open);
                 CaminhoXml = janelaArquivos.FileName;
 
-                //StreamReader lerArquivo = new StreamReader(CaminhoXml);
-                //string novoArquivo = lerArquivo.ReadLine();
-                //novoArquivo = novoArquivo.Replace("<!-- relId indica o índice do vértice na matriz de adjacências-->", "");
-                //StreamWriter gravar = new StreamWriter(CaminhoXml);
-                //gravar.Write(novoArquivo);
                 try
                 {
                     //Remove o comentário
@@ -83,6 +80,15 @@ namespace Grafos
 
 
                     xml.Load(file);
+
+                    XmlNodeList nodeGrafo = xml.GetElementsByTagName("Grafo");
+                    for (int g = 0; g < nodeGrafo.Count; g++)
+                    {
+                        XmlNode grafo = nodeGrafo.Item(g);
+                        XmlElement element = (XmlElement)grafo;
+                        bDirigido = Convert.ToBoolean(element.GetAttribute("dirigido"));
+                    }
+
                     XmlNodeList nodes = xml.GetElementsByTagName("Vertice");
 
                     for (int i = 0; i < nodes.Count; i++)
@@ -124,10 +130,12 @@ namespace Grafos
                 }
 
             }
+            grafo.Orientado = bDirigido;
+            file.Close();
             return null;
         }
 
-        public void ExecutarGrafo(bool pDfs, bool pBfs, bool pDjikstra, string pVerticeInicial, string pVerticeBusca, bool pEstrela, bool pPlanar)
+        public void ExecutarGrafo(bool pDfs, bool pBfs, bool pDjikstra, string pVerticeInicial, string pVerticeBusca, bool pEstrela, bool pPlanar, bool pColoracao)
         {
             if (pDfs)
             {
@@ -166,7 +174,7 @@ namespace Grafos
                 //GrafoDefinicao += "\n";
                 //for (int j = 0; j < dj.TabelaFinal.GetLength(1); j++)
                 //{
-                //    GrafoDefinicao += dj.TabelaFinal[1, j] + "   ";
+             //    GrafoDefinicao += dj.TabelaFinal[1, j] + "   ";
                 //}
 
                 //GrafoDefinicao += "\n";
@@ -177,6 +185,38 @@ namespace Grafos
             {
                 Planaridade oPlanar = new Planaridade(grafo.Vertices, grafo.Arcos);
                 oPlanar.VerificarPlanaridade();
+
+                if (oPlanar.Planar)
+                    GrafoDefinicao += "É planar";
+                else
+                    GrafoDefinicao += "Não é planar";
+
+            }else if (pColoracao)
+            {
+                Coloracao oColoracao = new Coloracao(grafo.Vertices, grafo.Orientado);
+                for (int i = 0; i < oColoracao.MatrizAdjacencia.GetLength(0); i++)
+                {
+                    GrafoDefinicao += "\n";
+                    for (int j = 0; j < oColoracao.MatrizAdjacencia.GetLength(1); j++)
+                    {
+                        GrafoDefinicao += oColoracao.MatrizAdjacencia[i, j].ToString();
+                    }
+                }
+
+                GrafoDefinicao += "\n";
+                foreach (int cor in oColoracao.Cores)
+                {
+                    GrafoDefinicao += cor.ToString() + " ";
+                }
+
+                GrafoDefinicao += "\n";
+
+                foreach (Vertice v in grafo.Vertices)
+                {
+                    GrafoDefinicao += v.Rotulo + ": " + v.CorVertice + "  ";
+                }
+
+                CoresColoracao = oColoracao.Cores;
             }
         }
 

@@ -64,6 +64,7 @@
     <Compile Include="AStar.cs" />
     <Compile Include="Arco.cs" />
     <Compile Include="Bfs.cs" />
+    <Compile Include="Coloracao.cs" />
     <Compile Include="Conectividade.cs" />
     <Compile Include="Dfs.cs" />
     <Compile Include="Djikstra.cs" />

@@ -20,6 +20,11 @@ namespace Grafos
 
         private bool bPlanar = false;
 
+        public bool Planar
+        {
+            get { return bPlanar; }
+        }
+
         #endregion Fim [Atributos]
 
         #region [Construtores]

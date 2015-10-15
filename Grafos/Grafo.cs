@@ -20,6 +20,11 @@ namespace Grafos
         /// </summary>
         public List<Arco> Arcos { get; set; }
 
+        /// <summary>
+        /// Define se um grafo é orientado
+        /// </summary>
+        public bool Orientado { get; set; }
+
         #endregion Fim [Propriedades]
 
         #region [Atributos]
