@@ -118,14 +118,19 @@ namespace Grafos
                 BuscarValorHDiagonalCimaDireita();
 
                 if (posicaoAtual.Item1 != oConfigStar.PosicaoInicial.Item1 || posicaoAtual.Item2 != oConfigStar.PosicaoInicial.Item2)
+                {
                     listaVisitados.Add(new Tuple<int, int>(posicaoAtual.Item1, posicaoAtual.Item2));
+                }
 
                 ProximoIndice();
             }
             else
             {
                 if (pilhaPosicoes.Count > 0)
+                {
+                    MarcarVisitado(posicaoAtual.Item1, posicaoAtual.Item2);
                     posicaoAtual = pilhaPosicoes.Pop();
+                }
             }
 
             if (posicaoAtual.Item1 == oConfigStar.PosicaoFinal.Item1 && posicaoAtual.Item2 == oConfigStar.PosicaoFinal.Item2)
@@ -147,6 +152,8 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1 - 1, posicaoAtual.Item2);
                 iValor = iValor + 10;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1 - 1, posicaoAtual.Item2, iValor));
+                MarcarVisitado(posicaoAtual.Item1 - 1, posicaoAtual.Item2);
+
             }
         }
 
@@ -159,6 +166,7 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2 + 1);
                 iValor = iValor + 10;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1, posicaoAtual.Item2 + 1, iValor));
+                MarcarVisitado(posicaoAtual.Item1, posicaoAtual.Item2 + 1);
             }
         }
 
@@ -171,6 +179,7 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2 - 1);
                 iValor = iValor + 10;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1, posicaoAtual.Item2 - 1, iValor));
+                MarcarVisitado(posicaoAtual.Item1, posicaoAtual.Item2 - 1);
             }
         }
 
@@ -183,6 +192,7 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1 + 1, posicaoAtual.Item2);
                 iValor = iValor + 10;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1 + 1, posicaoAtual.Item2, iValor));
+                MarcarVisitado(posicaoAtual.Item1 + 1, posicaoAtual.Item2);
             }
         }
 
@@ -195,6 +205,7 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1 + 1, posicaoAtual.Item2 + 1);
                 iValor = iValor + 14;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1 + 1, posicaoAtual.Item2 + 1, iValor));
+                MarcarVisitado(posicaoAtual.Item1 + 1, posicaoAtual.Item2 + 1);
             }
         }
 
@@ -207,6 +218,7 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1 + 1, posicaoAtual.Item2 - 1);
                 iValor = iValor + 14;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1 + 1, posicaoAtual.Item2 - 1, iValor));
+                MarcarVisitado(posicaoAtual.Item1 + 1, posicaoAtual.Item2 - 1);
             }
         }
 
@@ -219,6 +231,7 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1 - 1, posicaoAtual.Item2 - 1);
                 iValor = iValor + 14;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1 - 1, posicaoAtual.Item2 - 1, iValor));
+                MarcarVisitado(posicaoAtual.Item1 - 1, posicaoAtual.Item2 - 1);
             }
         }
 
@@ -231,28 +244,33 @@ namespace Grafos
                 int iValor = CalcularH(posicaoAtual.Item1 - 1, posicaoAtual.Item2 + 1);
                 iValor = iValor + 14;
                 listaPosicoesAtuais.Add(new Tuple<int, int, int>(posicaoAtual.Item1 - 1, posicaoAtual.Item2 + 1, iValor));
+                MarcarVisitado(posicaoAtual.Item1 - 1, posicaoAtual.Item2 + 1);
             }
         }
 
         private void ProximoIndice()
         {
             int iMenorValor = 0;
+            Tuple<int, int> posicaoAnterior = null;
             if (listaPosicoesAtuais.Count > 0)
             {
                 iMenorValor = listaPosicoesAtuais.AsEnumerable().Min(item => item.Item3);
+                bool bJaMarcou = false;
 
-                listaPosicoesAtuais.AsEnumerable().ToList().ForEach(tupla =>
+                listaPosicoesAtuais.OrderByDescending(item => item.Item1).AsEnumerable().ToList().ForEach(tupla =>
                 {
                     Tuple<int, int> tuplaVisitada = new Tuple<int, int>(tupla.Item1, tupla.Item2);
                     if (!listaVisitados.Contains(tuplaVisitada) && (tupla.Item1 != oConfigStar.PosicaoInicial.Item1 || tupla.Item2 != oConfigStar.PosicaoInicial.Item2))
                     {
-                        if (tupla.Item3 == iMenorValor)
+                        if (tupla.Item3 == iMenorValor && !bJaMarcou)
                         {
                             posicaoAtual = new Tuple<int, int>(tupla.Item1, tupla.Item2);
+                            bJaMarcou = true;
                             if (!dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2].ToString().Equals("Fim"))
                                 dtbEstrela.Rows[posicaoAtual.Item1][posicaoAtual.Item2] = "X";
                         }
                     }
+                        
                 });
             }
         }
@@ -262,6 +280,11 @@ namespace Grafos
             return (pItem1 != oConfigStar.PosicaoInicial.Item1 || pItem2 != oConfigStar.PosicaoInicial.Item2);
         }
 
+        private void MarcarVisitado(int pX, int pY)
+        {
+            if (!dtbEstrela.Rows[pX][pY].ToString().Equals("Inicio") && !dtbEstrela.Rows[pX][pY].ToString().Equals("Fim"))
+                dtbEstrela.Rows[pX][pY] = "Visitado";
+        }
 
         #endregion Fim [Métodos]
     }

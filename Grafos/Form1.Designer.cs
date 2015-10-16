@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
             this.pnlEstrela = new System.Windows.Forms.Panel();
             this.grdEstrela = new System.Windows.Forms.DataGridView();
             this.pnlLegendas = new System.Windows.Forms.Panel();
             this.grpLegendas = new System.Windows.Forms.GroupBox();
+            this.lblVisitados = new System.Windows.Forms.Label();
+            this.pnlVisitados = new System.Windows.Forms.Panel();
             this.lblCaminhos = new System.Windows.Forms.Label();
             this.pnlCaminhos = new System.Windows.Forms.Panel();
             this.lblPontoFinal = new System.Windows.Forms.Label();
@@ -63,6 +65,7 @@
             this.radBfs = new System.Windows.Forms.RadioButton();
             this.radDfs = new System.Windows.Forms.RadioButton();
             this.btnAbrirXml = new System.Windows.Forms.Button();
+            this.txtResposta = new System.Windows.Forms.TextBox();
             this.pnlPrincipal.SuspendLayout();
             this.pnlEstrela.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdEstrela)).BeginInit();
@@ -92,26 +95,26 @@
             this.pnlEstrela.Controls.Add(this.pnlLegendas);
             this.pnlEstrela.Location = new System.Drawing.Point(366, 29);
             this.pnlEstrela.Name = "pnlEstrela";
-            this.pnlEstrela.Size = new System.Drawing.Size(305, 150);
+            this.pnlEstrela.Size = new System.Drawing.Size(548, 150);
             this.pnlEstrela.TabIndex = 2;
             // 
             // grdEstrela
             // 
             this.grdEstrela.AllowUserToResizeColumns = false;
             this.grdEstrela.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.grdEstrela.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.grdEstrela.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.grdEstrela.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Desktop;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdEstrela.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdEstrela.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.grdEstrela.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdEstrela.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdEstrela.GridColor = System.Drawing.Color.LightGray;
@@ -119,7 +122,7 @@
             this.grdEstrela.Name = "grdEstrela";
             this.grdEstrela.RowHeadersVisible = false;
             this.grdEstrela.RowTemplate.Height = 40;
-            this.grdEstrela.Size = new System.Drawing.Size(305, 96);
+            this.grdEstrela.Size = new System.Drawing.Size(548, 96);
             this.grdEstrela.TabIndex = 2;
             this.grdEstrela.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdEstrela_CellFormatting);
             // 
@@ -129,11 +132,13 @@
             this.pnlLegendas.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlLegendas.Location = new System.Drawing.Point(0, 96);
             this.pnlLegendas.Name = "pnlLegendas";
-            this.pnlLegendas.Size = new System.Drawing.Size(305, 54);
+            this.pnlLegendas.Size = new System.Drawing.Size(548, 54);
             this.pnlLegendas.TabIndex = 1;
             // 
             // grpLegendas
             // 
+            this.grpLegendas.Controls.Add(this.lblVisitados);
+            this.grpLegendas.Controls.Add(this.pnlVisitados);
             this.grpLegendas.Controls.Add(this.lblCaminhos);
             this.grpLegendas.Controls.Add(this.pnlCaminhos);
             this.grpLegendas.Controls.Add(this.lblPontoFinal);
@@ -145,10 +150,27 @@
             this.grpLegendas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpLegendas.Location = new System.Drawing.Point(0, 0);
             this.grpLegendas.Name = "grpLegendas";
-            this.grpLegendas.Size = new System.Drawing.Size(305, 54);
+            this.grpLegendas.Size = new System.Drawing.Size(548, 54);
             this.grpLegendas.TabIndex = 0;
             this.grpLegendas.TabStop = false;
             this.grpLegendas.Text = "Legendas";
+            // 
+            // lblVisitados
+            // 
+            this.lblVisitados.AutoSize = true;
+            this.lblVisitados.Location = new System.Drawing.Point(500, 27);
+            this.lblVisitados.Name = "lblVisitados";
+            this.lblVisitados.Size = new System.Drawing.Size(49, 13);
+            this.lblVisitados.TabIndex = 8;
+            this.lblVisitados.Text = "Visitados";
+            // 
+            // pnlVisitados
+            // 
+            this.pnlVisitados.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlVisitados.Location = new System.Drawing.Point(452, 19);
+            this.pnlVisitados.Name = "pnlVisitados";
+            this.pnlVisitados.Size = new System.Drawing.Size(42, 26);
+            this.pnlVisitados.TabIndex = 7;
             // 
             // lblCaminhos
             // 
@@ -256,9 +278,11 @@
             this.lblGrafo.Name = "lblGrafo";
             this.lblGrafo.Size = new System.Drawing.Size(0, 25);
             this.lblGrafo.TabIndex = 0;
+            this.lblGrafo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlConfig
             // 
+            this.pnlConfig.Controls.Add(this.txtResposta);
             this.pnlConfig.Controls.Add(this.groupBox1);
             this.pnlConfig.Controls.Add(this.btnLer);
             this.pnlConfig.Controls.Add(this.txtXml);
@@ -426,6 +450,16 @@
             this.btnAbrirXml.UseVisualStyleBackColor = true;
             this.btnAbrirXml.Click += new System.EventHandler(this.btnAbrirXml_Click);
             // 
+            // txtResposta
+            // 
+            this.txtResposta.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResposta.Location = new System.Drawing.Point(3, 272);
+            this.txtResposta.Multiline = true;
+            this.txtResposta.Name = "txtResposta";
+            this.txtResposta.ReadOnly = true;
+            this.txtResposta.Size = new System.Drawing.Size(324, 57);
+            this.txtResposta.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,6 +524,9 @@
         private System.Windows.Forms.Label lblCaminhos;
         private System.Windows.Forms.Panel pnlCaminhos;
         private System.Windows.Forms.DataGridView grdEstrela;
+        private System.Windows.Forms.Label lblVisitados;
+        private System.Windows.Forms.Panel pnlVisitados;
+        private System.Windows.Forms.TextBox txtResposta;
     }
 }
 

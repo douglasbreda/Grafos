@@ -33,6 +33,8 @@ namespace Grafos
 
         private DataGridViewCellStyle oEstiloCaminho = new DataGridViewCellStyle();
 
+        private DataGridViewCellStyle oEstiloVisitados = new DataGridViewCellStyle();
+
         private List<Tuple<int, Brush>> listaCores = new List<Tuple<int, Brush>>();
 
         #endregion Fim [Atributos]
@@ -68,7 +70,9 @@ namespace Grafos
                 {
                     xml.ExecutarGrafo(radDfs.Checked, radBfs.Checked, radDjikstra.Checked, txtVerticeInicial.Text, txtVerticeBusca.Text, radEstrela.Checked, radPlanar.Checked, radColoracao.Checked);
                     pnlExibicao_Paint(null, new PaintEventArgs(pnlExibicao.CreateGraphics(), pnlExibicao.DisplayRectangle));
-                    this.lblGrafo.Text = xml.GrafoDefinicao;
+                    //this.lblGrafo.Text = xml.GrafoDefinicao;
+                    txtResposta.Clear();
+                    this.txtResposta.Text = xml.GrafoDefinicao;
                     //if (xml.Conexo)
                     //{
                     //    if (xml.GrafoDefinicao != null)
@@ -255,6 +259,11 @@ namespace Grafos
                     grdEstrela.Rows[p.RowIndex].Cells[p.ColumnIndex].Style = new DataGridViewCellStyle();
                     grdEstrela.Rows[p.RowIndex].Cells[p.ColumnIndex].Value = "";
                 }
+                else if(grdEstrela[p.ColumnIndex, p.RowIndex].Value.Equals("Visitado"))
+                {
+                    grdEstrela.Rows[p.RowIndex].Cells[p.ColumnIndex].Style = oEstiloVisitados;
+                    grdEstrela.Rows[p.RowIndex].Cells[p.ColumnIndex].Value = " ";
+                }
             }
         }
 
@@ -289,6 +298,8 @@ namespace Grafos
             oEstiloCaminho.BackColor = 
             pnlCaminhos.BackColor = Color.LightBlue;
 
+            oEstiloVisitados.BackColor =
+            pnlVisitados.BackColor = Color.Yellow;
 
         }
         private void ConfigurarCamposDjikstra()
@@ -339,7 +350,11 @@ namespace Grafos
                 Brushes.Brown,
                 Brushes.Crimson,
                 Brushes.Cyan,
-                Brushes.Khaki
+                Brushes.Khaki,
+                Brushes.Beige,
+                Brushes.DarkBlue,
+                Brushes.Linen,
+                Brushes.Lime
             };
             Random r = new Random();
             if (xml.CoresColoracao != null)

@@ -197,17 +197,17 @@ namespace Grafos
                 for (int i = 0; i < oColoracao.MatrizAdjacencia.GetLength(0); i++)
                 {
                     GrafoDefinicao += "\n";
-                    for (int j = 0; j < oColoracao.MatrizAdjacencia.GetLength(1); j++)
-                    {
-                        GrafoDefinicao += oColoracao.MatrizAdjacencia[i, j].ToString();
-                    }
+                    //for (int j = 0; j < oColoracao.MatrizAdjacencia.GetLength(1); j++)
+                    //{
+                    //    GrafoDefinicao += oColoracao.MatrizAdjacencia[i, j].ToString();
+                    //}
                 }
 
-                GrafoDefinicao += "\n";
-                foreach (int cor in oColoracao.Cores)
-                {
-                    GrafoDefinicao += cor.ToString() + " ";
-                }
+                //GrafoDefinicao += "\n";
+                //foreach (int cor in oColoracao.Cores)
+                //{
+                //    GrafoDefinicao += cor.ToString() + " ";
+                //}
 
                 GrafoDefinicao += "\n";
 
@@ -215,6 +215,9 @@ namespace Grafos
                 {
                     GrafoDefinicao += v.Rotulo + ": " + v.CorVertice + "  ";
                 }
+
+                //GrafoDefinicao += "\n";
+                //GrafoDefinicao += oColoracao.Cores.Count == 1 ?  oColoracao.Cores.Count + " Cor" :  oColoracao.Cores.Count + " Cores";
 
                 CoresColoracao = oColoracao.Cores;
             }
