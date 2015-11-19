@@ -76,11 +76,11 @@ namespace Grafos
                         if (arco.Destino.Rotulo.Equals(sRotuloInicial))
                         {
                             bPlanar = true;
-                            break;
+        //                    break;
                         }
                         else
                         {
-                            break;
+          //                  break;
                         }
                     }
                 }

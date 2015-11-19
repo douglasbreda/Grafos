@@ -91,8 +91,9 @@ namespace Grafos
             sVerticeBusca = pVerticeBusca;
             matrizAdjacencia = new double[iNumVertices, iNumVertices];
             tabelaFinal = new string[2, iNumVertices];
-            this.MontarMatrizAdjacencia();
             iIndiceInicial = listaVertices.AsEnumerable().Where(item => item.Rotulo.Equals(sVerticeInicial)).FirstOrDefault().Id;
+            this.MontarMatrizAdjacencia();
+            
         }
 
         private void MontarMatrizAdjacencia()
@@ -265,11 +266,11 @@ namespace Grafos
             return listaVertices.AsEnumerable().Where(item => item.Id == pIndice).FirstOrDefault().Visitado;
         }
 
-        
+
         private void MontarCaminho()
         {
             iValorCaminho = Convert.ToInt32(tabelaFinal[0, iIndiceBusca]);
-            caminhoInverso.Push(tabelaFinal[1, iIndiceBusca] + "  " );
+            caminhoInverso.Push(tabelaFinal[1, iIndiceBusca] + "  ");
             iIndiceBusca = listaVertices.AsEnumerable().Where(item => item.Rotulo.Equals(tabelaFinal[1, iIndiceBusca])).FirstOrDefault().Id;
             if (iIndiceBusca != iIndiceInicial)
                 MontarCaminho();

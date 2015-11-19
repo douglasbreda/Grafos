@@ -27,7 +27,7 @@ namespace Grafos
 
         public List<int> CoresColoracao { get; set; }
 
-
+        private bool bDirigido = false;
         #endregion Fim de [Atributos]
 
         #region [Construtores]
@@ -55,7 +55,7 @@ namespace Grafos
             OpenFileDialog janelaArquivos = new OpenFileDialog();
             janelaArquivos.Filter = "XML Files| *.xml";
             FileStream file = null;
-            bool bDirigido = false;
+            
 
             if (janelaArquivos.ShowDialog() == DialogResult.OK)
             {
@@ -135,7 +135,7 @@ namespace Grafos
             return null;
         }
 
-        public void ExecutarGrafo(bool pDfs, bool pBfs, bool pDjikstra, string pVerticeInicial, string pVerticeBusca, bool pEstrela, bool pPlanar, bool pColoracao)
+        public void ExecutarGrafo(bool pDfs, bool pBfs, bool pDjikstra, string pVerticeInicial, string pVerticeBusca, bool pEstrela, bool pPlanar, bool pColoracao, bool pCaixeiro)
         {
             if (pDfs)
             {
@@ -156,29 +156,6 @@ namespace Grafos
             else if (pDjikstra)
             {
                 Djikstra dj = new Djikstra(grafo.Vertices, pVerticeInicial, pVerticeBusca);
-                //for (int i = 0; i < dj.MatrizAdjacencia.GetLength(0); i++)
-                //{
-                //    GrafoDefinicao += "\n";
-                //    for (int j = 0; j < dj.MatrizAdjacencia.GetLength(1); j++)
-                //    {
-                //        GrafoDefinicao += dj.MatrizAdjacencia[i, j].ToString() + "   ";
-                //    }
-                //}
-
-                //GrafoDefinicao += "\n\n";
-
-                //for (int i = 0; i < dj.TabelaFinal.GetLength(1); i++)
-                //{
-                //    GrafoDefinicao += dj.TabelaFinal[0, i] + grafo.Vertices.AsEnumerable().Where(item => item.Id == i).FirstOrDefault().Rotulo + " ";
-                //}
-                //GrafoDefinicao += "\n";
-                //for (int j = 0; j < dj.TabelaFinal.GetLength(1); j++)
-                //{
-             //    GrafoDefinicao += dj.TabelaFinal[1, j] + "   ";
-                //}
-
-                //GrafoDefinicao += "\n";
-
                 GrafoDefinicao += dj.CaminhoGrafo;
             }
             else if (pPlanar)
@@ -191,23 +168,14 @@ namespace Grafos
                 else
                     GrafoDefinicao += "Não é planar";
 
-            }else if (pColoracao)
+            }
+            else if (pColoracao)
             {
                 Coloracao oColoracao = new Coloracao(grafo.Vertices, grafo.Orientado);
                 for (int i = 0; i < oColoracao.MatrizAdjacencia.GetLength(0); i++)
                 {
                     GrafoDefinicao += "\n";
-                    //for (int j = 0; j < oColoracao.MatrizAdjacencia.GetLength(1); j++)
-                    //{
-                    //    GrafoDefinicao += oColoracao.MatrizAdjacencia[i, j].ToString();
-                    //}
                 }
-
-                //GrafoDefinicao += "\n";
-                //foreach (int cor in oColoracao.Cores)
-                //{
-                //    GrafoDefinicao += cor.ToString() + " ";
-                //}
 
                 GrafoDefinicao += "\n";
 
@@ -215,12 +183,14 @@ namespace Grafos
                 {
                     GrafoDefinicao += v.Rotulo + ": " + v.CorVertice + "  ";
                 }
-
-                //GrafoDefinicao += "\n";
-                //GrafoDefinicao += oColoracao.Cores.Count == 1 ?  oColoracao.Cores.Count + " Cor" :  oColoracao.Cores.Count + " Cores";
-
                 CoresColoracao = oColoracao.Cores;
             }
+            else if (pCaixeiro)
+            {
+                CaixeiroViajante oCaixeiro = new CaixeiroViajante(grafo.Vertices, bDirigido);
+                this.GrafoDefinicao = oCaixeiro.CaminhoFinal;
+            }
+
         }
 
         #endregion Fim [Métodos]

@@ -50,6 +50,7 @@
             this.lblConexo = new System.Windows.Forms.Label();
             this.lblGrafo = new System.Windows.Forms.Label();
             this.pnlConfig = new System.Windows.Forms.Panel();
+            this.txtResposta = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblVerticeInicial = new System.Windows.Forms.Label();
             this.txtVerticeBusca = new System.Windows.Forms.TextBox();
@@ -58,6 +59,7 @@
             this.btnLer = new System.Windows.Forms.Button();
             this.txtXml = new System.Windows.Forms.TextBox();
             this.grpOpcoes = new System.Windows.Forms.GroupBox();
+            this.radCaixeiro = new System.Windows.Forms.RadioButton();
             this.radColoracao = new System.Windows.Forms.RadioButton();
             this.radPlanar = new System.Windows.Forms.RadioButton();
             this.radEstrela = new System.Windows.Forms.RadioButton();
@@ -65,7 +67,6 @@
             this.radBfs = new System.Windows.Forms.RadioButton();
             this.radDfs = new System.Windows.Forms.RadioButton();
             this.btnAbrirXml = new System.Windows.Forms.Button();
-            this.txtResposta = new System.Windows.Forms.TextBox();
             this.pnlPrincipal.SuspendLayout();
             this.pnlEstrela.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdEstrela)).BeginInit();
@@ -294,6 +295,16 @@
             this.pnlConfig.Size = new System.Drawing.Size(330, 544);
             this.pnlConfig.TabIndex = 0;
             // 
+            // txtResposta
+            // 
+            this.txtResposta.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResposta.Location = new System.Drawing.Point(3, 272);
+            this.txtResposta.Multiline = true;
+            this.txtResposta.Name = "txtResposta";
+            this.txtResposta.ReadOnly = true;
+            this.txtResposta.Size = new System.Drawing.Size(324, 57);
+            this.txtResposta.TabIndex = 9;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lblVerticeInicial);
@@ -357,6 +368,7 @@
             // 
             // grpOpcoes
             // 
+            this.grpOpcoes.Controls.Add(this.radCaixeiro);
             this.grpOpcoes.Controls.Add(this.radColoracao);
             this.grpOpcoes.Controls.Add(this.radPlanar);
             this.grpOpcoes.Controls.Add(this.radEstrela);
@@ -365,10 +377,22 @@
             this.grpOpcoes.Controls.Add(this.radDfs);
             this.grpOpcoes.Location = new System.Drawing.Point(3, 29);
             this.grpOpcoes.Name = "grpOpcoes";
-            this.grpOpcoes.Size = new System.Drawing.Size(191, 92);
+            this.grpOpcoes.Size = new System.Drawing.Size(290, 92);
             this.grpOpcoes.TabIndex = 1;
             this.grpOpcoes.TabStop = false;
             this.grpOpcoes.Text = "Opções";
+            // 
+            // radCaixeiro
+            // 
+            this.radCaixeiro.AutoSize = true;
+            this.radCaixeiro.Checked = true;
+            this.radCaixeiro.Location = new System.Drawing.Point(181, 19);
+            this.radCaixeiro.Name = "radCaixeiro";
+            this.radCaixeiro.Size = new System.Drawing.Size(103, 17);
+            this.radCaixeiro.TabIndex = 6;
+            this.radCaixeiro.TabStop = true;
+            this.radCaixeiro.Text = "Caixeiro Viajante";
+            this.radCaixeiro.UseVisualStyleBackColor = true;
             // 
             // radColoracao
             // 
@@ -377,7 +401,6 @@
             this.radColoracao.Name = "radColoracao";
             this.radColoracao.Size = new System.Drawing.Size(73, 17);
             this.radColoracao.TabIndex = 5;
-            this.radColoracao.TabStop = true;
             this.radColoracao.Text = "Coloração";
             this.radColoracao.UseVisualStyleBackColor = true;
             // 
@@ -388,7 +411,6 @@
             this.radPlanar.Name = "radPlanar";
             this.radPlanar.Size = new System.Drawing.Size(55, 17);
             this.radPlanar.TabIndex = 4;
-            this.radPlanar.TabStop = true;
             this.radPlanar.Text = "Planar";
             this.radPlanar.UseVisualStyleBackColor = true;
             // 
@@ -399,7 +421,6 @@
             this.radEstrela.Name = "radEstrela";
             this.radEstrela.Size = new System.Drawing.Size(36, 17);
             this.radEstrela.TabIndex = 3;
-            this.radEstrela.TabStop = true;
             this.radEstrela.Text = "A*";
             this.radEstrela.UseVisualStyleBackColor = true;
             this.radEstrela.CheckedChanged += new System.EventHandler(this.radEstrela_CheckedChanged);
@@ -411,7 +432,6 @@
             this.radDjikstra.Name = "radDjikstra";
             this.radDjikstra.Size = new System.Drawing.Size(77, 17);
             this.radDjikstra.TabIndex = 2;
-            this.radDjikstra.TabStop = true;
             this.radDjikstra.Text = "DJIKSTRA";
             this.radDjikstra.UseVisualStyleBackColor = true;
             this.radDjikstra.CheckedChanged += new System.EventHandler(this.radDjikstra_CheckedChanged);
@@ -429,12 +449,10 @@
             // radDfs
             // 
             this.radDfs.AutoSize = true;
-            this.radDfs.Checked = true;
             this.radDfs.Location = new System.Drawing.Point(9, 19);
             this.radDfs.Name = "radDfs";
             this.radDfs.Size = new System.Drawing.Size(46, 17);
             this.radDfs.TabIndex = 0;
-            this.radDfs.TabStop = true;
             this.radDfs.Text = "DFS";
             this.radDfs.UseVisualStyleBackColor = true;
             // 
@@ -449,16 +467,6 @@
             this.btnAbrirXml.TabIndex = 0;
             this.btnAbrirXml.UseVisualStyleBackColor = true;
             this.btnAbrirXml.Click += new System.EventHandler(this.btnAbrirXml_Click);
-            // 
-            // txtResposta
-            // 
-            this.txtResposta.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtResposta.Location = new System.Drawing.Point(3, 272);
-            this.txtResposta.Multiline = true;
-            this.txtResposta.Name = "txtResposta";
-            this.txtResposta.ReadOnly = true;
-            this.txtResposta.Size = new System.Drawing.Size(324, 57);
-            this.txtResposta.TabIndex = 9;
             // 
             // Form1
             // 
@@ -527,6 +535,7 @@
         private System.Windows.Forms.Label lblVisitados;
         private System.Windows.Forms.Panel pnlVisitados;
         private System.Windows.Forms.TextBox txtResposta;
+        private System.Windows.Forms.RadioButton radCaixeiro;
     }
 }
 

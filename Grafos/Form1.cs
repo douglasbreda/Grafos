@@ -68,33 +68,11 @@ namespace Grafos
             {
                 if (!radEstrela.Checked)
                 {
-                    xml.ExecutarGrafo(radDfs.Checked, radBfs.Checked, radDjikstra.Checked, txtVerticeInicial.Text, txtVerticeBusca.Text, radEstrela.Checked, radPlanar.Checked, radColoracao.Checked);
+                    xml.ExecutarGrafo(radDfs.Checked, radBfs.Checked, radDjikstra.Checked, txtVerticeInicial.Text, txtVerticeBusca.Text, radEstrela.Checked, radPlanar.Checked, radColoracao.Checked, radCaixeiro.Checked);
                     pnlExibicao_Paint(null, new PaintEventArgs(pnlExibicao.CreateGraphics(), pnlExibicao.DisplayRectangle));
-                    //this.lblGrafo.Text = xml.GrafoDefinicao;
+                    this.lblGrafo.Text = xml.GrafoDefinicao;
                     txtResposta.Clear();
                     this.txtResposta.Text = xml.GrafoDefinicao;
-                    //if (xml.Conexo)
-                    //{
-                    //    if (xml.GrafoDefinicao != null)
-                    //    {
-                    //        lblConexo.Text = "O grafo é conexo";
-                    //        lblConexo.ForeColor = Color.Green;
-                    //    }
-                    //    else
-                    //        lblConexo.Text = "";
-                    //}
-                    //else
-                    //{
-                    //    if (xml.GrafoDefinicao != null)
-                    //    {
-                    //        lblConexo.Text = "O grafo não é conexo";
-                    //        lblConexo.ForeColor = Color.Red;
-                    //    }
-                    //    else
-                    //    {
-                    //        lblConexo.Text = "";
-                    //    }
-                    //}
                 }
                 else
                 {
@@ -117,8 +95,8 @@ namespace Grafos
 
         private void pnlExibicao_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(SystemColors.Control);
-            DesenharGrafo(e.Graphics, e.ClipRectangle);
+            //e.Graphics.Clear(SystemColors.Control);
+            //DesenharGrafo(e.Graphics, e.ClipRectangle);
         }
 
         private void grdEstrela_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

@@ -103,43 +103,49 @@ namespace Grafos
 
         private void CalcularProximaPosicao()
         {
-            if (!pilhaPosicoes.Contains(posicaoAtual) && !listaVisitados.Contains(posicaoAtual))
-            {
-                pilhaPosicoes.Push(posicaoAtual);
-                H = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2);
-                listaPosicoesAtuais.Clear();
-                BuscarValorHAbaixo();
-                BuscarValorHAcima();
-                BuscarValorHDireita();
-                BuscarValorHEsquerda();
-                BuscarValorHDiagonalBaixoEsquerda();
-                BuscarValorHDiagonalBaixoDireita();
-                BuscarValorHDiagonalCimaEsquerda();
-                BuscarValorHDiagonalCimaDireita();
-
-                if (posicaoAtual.Item1 != oConfigStar.PosicaoInicial.Item1 || posicaoAtual.Item2 != oConfigStar.PosicaoInicial.Item2)
+            try {
+                if (!pilhaPosicoes.Contains(posicaoAtual) && !listaVisitados.Contains(posicaoAtual))
                 {
-                    listaVisitados.Add(new Tuple<int, int>(posicaoAtual.Item1, posicaoAtual.Item2));
+                    pilhaPosicoes.Push(posicaoAtual);
+                    H = CalcularH(posicaoAtual.Item1, posicaoAtual.Item2);
+                    listaPosicoesAtuais.Clear();
+                    BuscarValorHAbaixo();
+                    BuscarValorHAcima();
+                    BuscarValorHDireita();
+                    BuscarValorHEsquerda();
+                    BuscarValorHDiagonalBaixoEsquerda();
+                    BuscarValorHDiagonalBaixoDireita();
+                    BuscarValorHDiagonalCimaEsquerda();
+                    BuscarValorHDiagonalCimaDireita();
+
+                    if (posicaoAtual.Item1 != oConfigStar.PosicaoInicial.Item1 || posicaoAtual.Item2 != oConfigStar.PosicaoInicial.Item2)
+                    {
+                        listaVisitados.Add(new Tuple<int, int>(posicaoAtual.Item1, posicaoAtual.Item2));
+                    }
+
+                    ProximoIndice();
+                }
+                else
+                {
+                    if (pilhaPosicoes.Count > 0)
+                    {
+                        MarcarVisitado(posicaoAtual.Item1, posicaoAtual.Item2);
+                        posicaoAtual = pilhaPosicoes.Pop();
+                    }
                 }
 
-                ProximoIndice();
-            }
-            else
-            {
-                if (pilhaPosicoes.Count > 0)
+                if (posicaoAtual.Item1 == oConfigStar.PosicaoFinal.Item1 && posicaoAtual.Item2 == oConfigStar.PosicaoFinal.Item2)
                 {
-                    MarcarVisitado(posicaoAtual.Item1, posicaoAtual.Item2);
-                    posicaoAtual = pilhaPosicoes.Pop();
+
+                }
+                else
+                {
+                    CalcularProximaPosicao();
                 }
             }
-
-            if (posicaoAtual.Item1 == oConfigStar.PosicaoFinal.Item1 && posicaoAtual.Item2 == oConfigStar.PosicaoFinal.Item2)
+            catch
             {
 
-            }
-            else
-            {
-                CalcularProximaPosicao();
             }
         }
 

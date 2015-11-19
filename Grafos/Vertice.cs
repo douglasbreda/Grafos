@@ -74,6 +74,17 @@ namespace Grafos
             }
         }
 
+        /// <summary>
+        /// Define o valor do peso atual a ser usado no cálculo do caixeiro viajante
+        /// </summary>
+        public double ValorCaixeiro { get; set; }
+
+
+        /// <summary>
+        /// Indice para inserir os vértices na ordem
+        /// </summary>
+        public int IndiceCaixeiro { get; set; }
+
         #endregion Fim [Propriedades]
 
         #region [Construtores]
