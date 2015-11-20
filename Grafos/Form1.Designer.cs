@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
             this.pnlEstrela = new System.Windows.Forms.Panel();
             this.grdEstrela = new System.Windows.Forms.DataGridView();
@@ -50,6 +50,9 @@
             this.lblConexo = new System.Windows.Forms.Label();
             this.lblGrafo = new System.Windows.Forms.Label();
             this.pnlConfig = new System.Windows.Forms.Panel();
+            this.lblCusto = new System.Windows.Forms.Label();
+            this.cboTipoCusto = new System.Windows.Forms.ComboBox();
+            this.txtCustoTotal = new System.Windows.Forms.TextBox();
             this.txtResposta = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblVerticeInicial = new System.Windows.Forms.Label();
@@ -67,6 +70,7 @@
             this.radBfs = new System.Windows.Forms.RadioButton();
             this.radDfs = new System.Windows.Forms.RadioButton();
             this.btnAbrirXml = new System.Windows.Forms.Button();
+            this.txtLog = new System.Windows.Forms.TextBox();
             this.pnlPrincipal.SuspendLayout();
             this.pnlEstrela.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdEstrela)).BeginInit();
@@ -103,19 +107,19 @@
             // 
             this.grdEstrela.AllowUserToResizeColumns = false;
             this.grdEstrela.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            this.grdEstrela.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            this.grdEstrela.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this.grdEstrela.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Desktop;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdEstrela.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdEstrela.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.grdEstrela.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdEstrela.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdEstrela.GridColor = System.Drawing.Color.LightGray;
@@ -244,6 +248,7 @@
             // pnlExibicao
             // 
             this.pnlExibicao.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlExibicao.Controls.Add(this.txtLog);
             this.pnlExibicao.Controls.Add(this.pnlConectividade);
             this.pnlExibicao.Controls.Add(this.lblGrafo);
             this.pnlExibicao.Location = new System.Drawing.Point(366, 227);
@@ -280,9 +285,13 @@
             this.lblGrafo.Size = new System.Drawing.Size(0, 25);
             this.lblGrafo.TabIndex = 0;
             this.lblGrafo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGrafo.Visible = false;
             // 
             // pnlConfig
             // 
+            this.pnlConfig.Controls.Add(this.lblCusto);
+            this.pnlConfig.Controls.Add(this.cboTipoCusto);
+            this.pnlConfig.Controls.Add(this.txtCustoTotal);
             this.pnlConfig.Controls.Add(this.txtResposta);
             this.pnlConfig.Controls.Add(this.groupBox1);
             this.pnlConfig.Controls.Add(this.btnLer);
@@ -294,6 +303,38 @@
             this.pnlConfig.Name = "pnlConfig";
             this.pnlConfig.Size = new System.Drawing.Size(330, 544);
             this.pnlConfig.TabIndex = 0;
+            // 
+            // lblCusto
+            // 
+            this.lblCusto.AutoSize = true;
+            this.lblCusto.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCusto.Location = new System.Drawing.Point(3, 349);
+            this.lblCusto.Name = "lblCusto";
+            this.lblCusto.Size = new System.Drawing.Size(48, 17);
+            this.lblCusto.TabIndex = 12;
+            this.lblCusto.Text = "Custo ";
+            // 
+            // cboTipoCusto
+            // 
+            this.cboTipoCusto.FormattingEnabled = true;
+            this.cboTipoCusto.Items.AddRange(new object[] {
+            "km",
+            "m",
+            "milhas",
+            "cm",
+            "mm"});
+            this.cboTipoCusto.Location = new System.Drawing.Point(163, 349);
+            this.cboTipoCusto.Name = "cboTipoCusto";
+            this.cboTipoCusto.Size = new System.Drawing.Size(130, 21);
+            this.cboTipoCusto.TabIndex = 11;
+            // 
+            // txtCustoTotal
+            // 
+            this.txtCustoTotal.Location = new System.Drawing.Point(57, 349);
+            this.txtCustoTotal.Name = "txtCustoTotal";
+            this.txtCustoTotal.ReadOnly = true;
+            this.txtCustoTotal.Size = new System.Drawing.Size(100, 20);
+            this.txtCustoTotal.TabIndex = 10;
             // 
             // txtResposta
             // 
@@ -468,6 +509,17 @@
             this.btnAbrirXml.UseVisualStyleBackColor = true;
             this.btnAbrirXml.Click += new System.EventHandler(this.btnAbrirXml_Click);
             // 
+            // txtLog
+            // 
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Location = new System.Drawing.Point(0, 0);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtLog.Size = new System.Drawing.Size(566, 245);
+            this.txtLog.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -536,6 +588,10 @@
         private System.Windows.Forms.Panel pnlVisitados;
         private System.Windows.Forms.TextBox txtResposta;
         private System.Windows.Forms.RadioButton radCaixeiro;
+        private System.Windows.Forms.Label lblCusto;
+        private System.Windows.Forms.ComboBox cboTipoCusto;
+        private System.Windows.Forms.TextBox txtCustoTotal;
+        private System.Windows.Forms.TextBox txtLog;
     }
 }
 

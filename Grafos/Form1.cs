@@ -71,6 +71,8 @@ namespace Grafos
                     xml.ExecutarGrafo(radDfs.Checked, radBfs.Checked, radDjikstra.Checked, txtVerticeInicial.Text, txtVerticeBusca.Text, radEstrela.Checked, radPlanar.Checked, radColoracao.Checked, radCaixeiro.Checked);
                     pnlExibicao_Paint(null, new PaintEventArgs(pnlExibicao.CreateGraphics(), pnlExibicao.DisplayRectangle));
                     this.lblGrafo.Text = xml.GrafoDefinicao;
+                    this.txtCustoTotal.Text = xml.CustoCaixeiro.ToString();
+                    this.txtLog.Text = xml.Log;
                     txtResposta.Clear();
                     this.txtResposta.Text = xml.GrafoDefinicao;
                 }
@@ -124,8 +126,7 @@ namespace Grafos
                 xml.GrafoFromXml();
                 this.txtXml.Text = xml.CaminhoXml;
                 this.lblConexo.Text = "";
-                lblGrafo.Text = "";
-                
+                lblGrafo.Text = "";                
             }
             else
             {
@@ -279,6 +280,7 @@ namespace Grafos
             oEstiloVisitados.BackColor =
             pnlVisitados.BackColor = Color.Yellow;
 
+            cboTipoCusto.SelectedIndex = 0;
         }
         private void ConfigurarCamposDjikstra()
         {

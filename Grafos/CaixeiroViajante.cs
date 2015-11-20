@@ -39,6 +39,10 @@ namespace Grafos
 
         private int iIndiceInserir = 0;
 
+        private double iCustoTotal = 0;
+
+        private StringBuilder sbLog = new StringBuilder();
+
         #endregion Fim [Atributos]
 
         #region [Propriedades]
@@ -67,6 +71,20 @@ namespace Grafos
 
                 return sRetorno;
             }
+        }
+
+        /// <summary>
+        /// Retorna o custo total do grafo
+        /// </summary>
+        public double CustoFinal
+        {
+            get { return iCustoTotal; }
+            set { iCustoTotal = value; }
+        }
+
+        public string LogCaixeiro
+        {
+            get { return sbLog.ToString(); }
         }
 
         #endregion Fim [Propriedades]
@@ -129,7 +147,6 @@ namespace Grafos
                         dtbAdjacencia.Rows[iIndiceColuna][iIndiceLinha] = arcos.Peso;
                     }
                 }
-
             }
             else
             {
@@ -141,14 +158,52 @@ namespace Grafos
                         iIndiceLinha = arcos.Origem.Id;
                         iIndiceColuna = arcos.Destino.Id;
                         dtbAdjacencia.Rows[iIndiceLinha][iIndiceColuna] = arcos.Peso;
-                        //dtbAdjacencia.Rows[iIndiceColuna][iIndiceLinha] = arcos.Peso;
                     }
                 }
             }
 
             dtbDuplicada = dtbAdjacencia.Copy();
             DuplicarValores();
+            GravarLogMatrizAdjacencia();
             EncontrarMenorValor();
+            
+        }
+
+        private void GravarLogMatrizAdjacencia()
+        {
+            sbLog.AppendLine("Matriz de Adjacência");
+
+            foreach (DataRow drwLinha in dtbAdjacencia.Rows)
+            {
+                sbLog.AppendLine();
+                for (int i = 0; i < dtbAdjacencia.Columns.Count; i++)
+                {
+                    if (drwLinha[i] != DBNull.Value)
+                    {
+                        sbLog.Append(drwLinha[i]);
+                        sbLog.Append(" | ");
+                    }
+                    else
+                    {
+                        sbLog.Append(0);
+                        sbLog.Append(" | ");
+                    }
+                }
+            }
+
+            sbLog.AppendLine();
+            sbLog.AppendLine();
+            sbLog.AppendLine("Matriz de Adjacência Calculada");
+
+            foreach (DataRow drwLinha in dtbDuplicada.Rows)
+            {
+                sbLog.AppendLine();
+                for (int i = 0; i < dtbDuplicada.Columns.Count; i++)
+                {
+                    sbLog.Append(drwLinha[i]);
+                    sbLog.Append(" | ");
+                }
+            }
         }
 
         private void MontarTabelaAdjacencia()
@@ -163,7 +218,7 @@ namespace Grafos
 
                 dtbAdjacencia.Rows.Add(drwNovaLinha);
                 dtbAdjacencia.Columns.Add(dcNovaColuna);
-            }    
+            } 
         }
 
         private void DuplicarValores()
@@ -235,9 +290,61 @@ namespace Grafos
 
             DefinirValoresPeso(iIdFindLinha, iIdFindColuna);
 
+            iCustoTotal += vAnalise1.ValorCaixeiro + vAnalise2.ValorCaixeiro;
+
             PreencherListaTestes(sLinhaMenorValor, sColunaMenorValor);
 
+            sbLog.AppendLine();
+            sbLog.AppendLine();
+            sbLog.AppendLine("Menor valor encontrado: " + nMenorValor);
+
+            sbLog.AppendLine();
+            sbLog.AppendLine("Vértices em análise: ");
+            sbLog.AppendLine();
+            sbLog.Append(vAnalise1.Rotulo);
+            sbLog.Append("-->");
+            sbLog.Append(vAnalise2.Rotulo);
+            sbLog.AppendLine();
+
+            LogInicial();
+
             AplicarTestes();
+        }
+
+        private void LogInicial()
+        {
+
+            sbLog.AppendLine();
+            sbLog.AppendLine("Grafo");
+            sbLog.AppendLine();
+
+            listaAnalise.AsEnumerable().ToList().ForEach(item =>
+            {
+                sbLog.Append(item.Rotulo);
+                sbLog.Append("-->");
+            });
+
+            sbLog = sbLog.Remove(sbLog.Length - 3, 3);
+
+            sbLog.AppendLine();
+            sbLog.AppendLine();
+            if (listaTestes.Count > 0)
+            {
+                sbLog.AppendLine("Vértices a serem testados");
+                sbLog.AppendLine();
+
+                listaTestes.AsEnumerable().ToList().ForEach(item =>
+                {
+                    sbLog.Append(item.Rotulo);
+                    sbLog.Append(",");
+                });
+                sbLog = sbLog.Remove(sbLog.Length - 1, 1);
+                sbLog.AppendLine();
+                sbLog.AppendLine();
+            }
+
+            sbLog.AppendLine("Custo atual: " + iCustoTotal);
+            sbLog.AppendLine();
         }
 
         private void PreencherListaTestes(string sLinhaMenorValor, string sColunaMenorValor)
@@ -256,7 +363,7 @@ namespace Grafos
             double nMenorCaminho2 = 100000;
             double nCustoTotal = 100000;
             Vertice vRemover = null;
-            
+
 
             while (listaTestes.Count > 0)
             {
@@ -292,20 +399,20 @@ namespace Grafos
                 else
                     bTodosVisitados = true;
 
-                    if (bTodosVisitados)
+                if (bTodosVisitados)
+                {
+                    if (vRemover != null)
                     {
-                        if (vRemover != null)
-                        {
-                            DefinirPesoNovoVertice(vRemover);
-                            listaTestes.Remove(vRemover);
-                            OrdenarGrafo(vRemover);
-                            nCustoTotal = 100000;
-
-                        }
-
-                        BuscarProximosIndices();
+                        DefinirPesoNovoVertice(vRemover);
+                        listaTestes.Remove(vRemover);
+                        OrdenarGrafo(vRemover);
+                        iCustoTotal += nCustoTotal;
+                        nCustoTotal = 100000;
+                        LogInicial();
                     }
-                
+
+                    BuscarProximosIndices();
+                }
             }
         }
 
@@ -357,6 +464,16 @@ namespace Grafos
             }
             else
                 bTodosVisitados = true;
+
+            if (!bTodosVisitados)
+            {
+                sbLog.AppendLine("Vértices em análise: ");
+                sbLog.AppendLine();
+                sbLog.Append(vAnalise1.Rotulo);
+                sbLog.Append("-->");
+                sbLog.Append(vAnalise2.Rotulo);
+                sbLog.AppendLine();
+            }
         }
 
         private void DefinirValoresPeso(int pIdLinha, int pIdColuna)

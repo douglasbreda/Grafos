@@ -27,7 +27,13 @@ namespace Grafos
 
         public List<int> CoresColoracao { get; set; }
 
+        public double CustoCaixeiro { get; set; }
+
+        public string Log { get; set; }
+
         private bool bDirigido = false;
+
+       
         #endregion Fim de [Atributos]
 
         #region [Construtores]
@@ -186,9 +192,11 @@ namespace Grafos
                 CoresColoracao = oColoracao.Cores;
             }
             else if (pCaixeiro)
-            {
+            { 
                 CaixeiroViajante oCaixeiro = new CaixeiroViajante(grafo.Vertices, bDirigido);
                 this.GrafoDefinicao = oCaixeiro.CaminhoFinal;
+                this.CustoCaixeiro = oCaixeiro.CustoFinal;
+                this.Log = oCaixeiro.LogCaixeiro; 
             }
 
         }
